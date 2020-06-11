@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Scripts\202005191011_CreateDatabaseAndTablesInitial.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Scripts\202005191011_CreateDatabaseAndTablesInitial.sql" />
+  </ItemGroup>
+
+</Project>
