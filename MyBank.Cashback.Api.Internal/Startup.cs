@@ -37,7 +37,8 @@ namespace MyBank.Cashback.Api.Internal
             //     .SetBasePath(projectPath)
             //     .AddJsonFile("appsettings.json")
             //     .Build();
-            // services.AddSingleton<IConfiguration>(configuration);
+
+            services.AddSingleton<IConfiguration>(Configuration);
 
             services.Configure<KestrelServerOptions>(options =>
             {

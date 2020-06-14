@@ -15,7 +15,7 @@ namespace MyBank.Cashback.Infra.Data.Repositories
 
         public CashbackRepository(IConfiguration configuration)
         {
-            connectionString = configuration.GetConnectionString("MyBank_Cashback");
+            connectionString = configuration?.GetConnectionString("MyBank_Cashback") ?? "";
         }
 
         public CashbackConfiguration GetConfiguration()
