@@ -41,6 +41,5 @@ namespace MyBank.Cashback.Api.Internal.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
     }
 }

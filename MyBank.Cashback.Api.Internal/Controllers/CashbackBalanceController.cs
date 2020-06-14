@@ -3,9 +3,7 @@ using MyBank.Cashback.Domain.Interface.Repositories;
 
 namespace MyBank.Cashback.Api.Internal.Controllers
 {
-  // Get cashback balance of a client
-
-  [Route("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class CashbackBalanceController : ControllerBase
     {

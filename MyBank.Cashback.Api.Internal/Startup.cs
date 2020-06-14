@@ -24,20 +24,20 @@ namespace MyBank.Cashback.Api.Internal
         public Startup(IConfiguration configuration)
         {
             LoggerConfigurationProvider.Provides();
-            //Configuration = configuration;
+            Configuration = configuration;
         }
 
-        //public IConfiguration Configuration { get; }
+        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            string projectPath = AppDomain.CurrentDomain.BaseDirectory.Split(new String[] { @"bin\" }, StringSplitOptions.None)[0];
-            var configuration = new ConfigurationBuilder()
-                .SetBasePath(projectPath)
-                .AddJsonFile("appsettings.json")
-                .Build();
-            services.AddSingleton<IConfiguration>(configuration);
+            // string projectPath = AppDomain.CurrentDomain.BaseDirectory.Split(new String[] { @"bin\" }, StringSplitOptions.None)[0];
+            // var configuration = new ConfigurationBuilder()
+            //     .SetBasePath(projectPath)
+            //     .AddJsonFile("appsettings.json")
+            //     .Build();
+            // services.AddSingleton<IConfiguration>(configuration);
 
             services.Configure<KestrelServerOptions>(options =>
             {
@@ -49,14 +49,14 @@ namespace MyBank.Cashback.Api.Internal
                 options.AllowSynchronousIO = true;
             });
 
-            services.AddMyBankInfrastructure(configuration);
-
             services.AddControllers();
 
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MyBank API", Version = "v1" });
             });
+
+            services.AddMyBankInfrastructure(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -67,13 +67,11 @@ namespace MyBank.Cashback.Api.Internal
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 
             app.UseAuthorization();
-
-            app.UseMyBankConfiguration();
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
@@ -85,6 +83,8 @@ namespace MyBank.Cashback.Api.Internal
             {
                 endpoints.MapControllers();
             });
+
+            app.UseMyBankConfiguration();
         }
     }
 }

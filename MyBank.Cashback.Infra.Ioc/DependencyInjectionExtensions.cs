@@ -24,8 +24,8 @@ namespace MyBank.Cashback.Infra.Ioc
             this IServiceCollection services,
             IConfiguration configuration)
         {
-            var stringConexao = configuration.GetConnectionString("MyBank_Cashback");
-            System.Console.WriteLine(stringConexao);
+            var stringConexao = configuration?.GetConnectionString("MyBank_Cashback") ?? "";
+            System.Console.WriteLine($"stringConexao: {stringConexao}");
 
             return services
                 .ConfigureRepositories()
@@ -90,7 +90,8 @@ namespace MyBank.Cashback.Infra.Ioc
             this IServiceCollection services,
             IConfiguration configuration)
         {
-            var bootstrapServers = configuration.GetSection("Kafka:BootstrapServers").Value;
+            var bootstrapServers = configuration?.GetSection("Kafka:BootstrapServers").Value ?? "";
+            System.Console.WriteLine($"bootstrapServers: {bootstrapServers}");
             services.AddSingleton<IKafkaProducer>(new KafkaProducer(bootstrapServers));
 
             return services;
