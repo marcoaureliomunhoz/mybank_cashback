@@ -9,6 +9,7 @@ using MyBank.Cashback.Domain.Services;
 using MyBank.Cashback.Infra.Data.Repositories;
 using MyBank.Cashback.TransactionConsumer.Console.Controllers;
 using MyBank.Infra.Generics.Extensions;
+using MyBank.Infra.Generics.Providers;
 
 namespace MyBank.Cashback.TransactionConsumer.Console
 {
@@ -28,6 +29,8 @@ namespace MyBank.Cashback.TransactionConsumer.Console
             var connectionString = configuration?.GetConnectionString("MyBank_Cashback") ?? "";
             System.Console.WriteLine($"connectionString in ProducerConsole: {connectionString}");
 
+            LoggerConfigurationProvider.Provides();
+
             var serviceProvider = new ServiceCollection()
                 .ConfigureLogging()
                 .AddSingleton<IConfiguration>(configuration)
@@ -36,9 +39,12 @@ namespace MyBank.Cashback.TransactionConsumer.Console
                 .AddSingleton(typeof(TransactionController))
                 .BuildServiceProvider();
 
-            var logger = serviceProvider.GetService<ILogger>();
+            var logger = serviceProvider.GetService<ILogger<Program>>();
 
-            logger.LogInformation("[{date}] TransactionConsumer Started", DateTime.UtcNow);
+            if (logger != null)
+                logger?.LogInformation("[{date}] TransactionConsumer Started", DateTime.UtcNow);
+            else
+                System.Console.WriteLine("logger not ready");
 
             System.Console.WriteLine("TransactionConsumer Started");
 

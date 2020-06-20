@@ -7,4 +7,4 @@ RUN dotnet publish ./MyBank.Cashback.Api.Internal/MyBank.Cashback.Api.Internal.c
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 AS runtime
 WORKDIR /app
 COPY --from=build /app/out .
-ENTRYPOINT ["dotnet", "MyBank.Cashback.Api.Internal.dll"]
+ENTRYPOINT ["dotnet", "MyBank.Cashback.Api.Internal.dll", "--prod", "1"]

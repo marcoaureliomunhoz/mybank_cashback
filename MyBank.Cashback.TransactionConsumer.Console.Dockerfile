@@ -7,4 +7,4 @@ RUN dotnet publish ./MyBank.Cashback.TransactionConsumer.Console/MyBank.Cashback
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 AS runtime
 WORKDIR /app
 COPY --from=build /app/out .
-ENTRYPOINT ["dotnet", "MyBank.Cashback.TransactionConsumer.Console.dll"]
+ENTRYPOINT ["dotnet", "MyBank.Cashback.TransactionConsumer.Console.dll", "--prod", "1"]
