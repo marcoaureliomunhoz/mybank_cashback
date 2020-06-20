@@ -21,10 +21,13 @@ namespace MyBank.Cashback.Api.Internal
 {
     public class Startup
     {
+        private string ProdParam { get; }
+
         public Startup(IConfiguration configuration)
         {
             LoggerConfigurationProvider.Provides();
             Configuration = configuration;
+            ProdParam = Configuration.GetValue<string>("prod");
         }
 
         public IConfiguration Configuration { get; }
@@ -32,13 +35,24 @@ namespace MyBank.Cashback.Api.Internal
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // string projectPath = AppDomain.CurrentDomain.BaseDirectory.Split(new String[] { @"bin\" }, StringSplitOptions.None)[0];
-            // var configuration = new ConfigurationBuilder()
-            //     .SetBasePath(projectPath)
-            //     .AddJsonFile("appsettings.json")
-            //     .Build();
+            var configuration = Configuration;
 
-            services.AddSingleton<IConfiguration>(Configuration);
+            Console.WriteLine($"ProdParam: {ProdParam}");
+
+            if (string.IsNullOrEmpty(ProdParam))
+            {
+                string projectPath = AppDomain.CurrentDomain.BaseDirectory.Split(new String[] { @"bin\" }, StringSplitOptions.None)[0];
+                System.Console.WriteLine($"projectPath in Api ConfigureServices: {projectPath}");
+                configuration = new ConfigurationBuilder()
+                    .SetBasePath(projectPath)
+                    .AddJsonFile("appsettings.json")
+                    .Build();
+            }
+
+            var connectionString = configuration?.GetConnectionString("MyBank_Cashback") ?? "";
+            System.Console.WriteLine($"connectionString in Api ConfigureServices: {connectionString}");
+
+            services.AddSingleton<IConfiguration>(configuration);
 
             services.Configure<KestrelServerOptions>(options =>
             {
@@ -57,7 +71,7 @@ namespace MyBank.Cashback.Api.Internal
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MyBank API", Version = "v1" });
             });
 
-            services.AddMyBankInfrastructure(Configuration);
+            services.AddMyBankInfrastructure(configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

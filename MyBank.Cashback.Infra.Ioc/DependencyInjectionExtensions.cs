@@ -24,8 +24,8 @@ namespace MyBank.Cashback.Infra.Ioc
             this IServiceCollection services,
             IConfiguration configuration)
         {
-            var stringConexao = configuration?.GetConnectionString("MyBank_Cashback") ?? "";
-            System.Console.WriteLine($"stringConexao: {stringConexao}");
+            var connectionString = configuration?.GetConnectionString("MyBank_Cashback") ?? "";
+            System.Console.WriteLine($"connectionString in DependencyInjectionExtensions: {connectionString}");
 
             return services
                 .ConfigureRepositories()

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace MyBank.Cashback.Api.Internal.Controllers
 {
@@ -6,9 +7,17 @@ namespace MyBank.Cashback.Api.Internal.Controllers
     [ApiController]
     public class PingController : ControllerBase
     {
+        private readonly ILogger<PingController> _logger;
+
+        public PingController(ILogger<PingController> logger)
+        {
+            _logger = logger;
+        }
+
         [HttpGet]
         public string Get()
         {
+            _logger.LogInformation("PingController Get");
             return "Pong";
         }
     }

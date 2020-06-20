@@ -23,6 +23,11 @@ namespace MyBank.Cashback.TransactionConsumer.Console
                 .AddJsonFile("appsettings.json")
                 .Build();
 
+            System.Console.WriteLine($"ProjectPath: {projectPath}");
+
+            var connectionString = configuration?.GetConnectionString("MyBank_Cashback") ?? "";
+            System.Console.WriteLine($"connectionString in ProducerConsole: {connectionString}");
+
             var serviceProvider = new ServiceCollection()
                 .ConfigureLogging()
                 .AddSingleton<IConfiguration>(configuration)

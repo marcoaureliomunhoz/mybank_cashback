@@ -19,7 +19,7 @@ namespace MyBank.Infra.Generics.Providers
 
         private static ElasticsearchSinkOptions GetElasticsearchSinkOptions()
         {
-            var elasticsearchUri = new Uri("http://localhost:9200");
+            var elasticsearchUri = new Uri("http://192.168.0.16:9229");
             var indexFormat = $"{Assembly.GetExecutingAssembly().GetName().Name.ToLower().Replace(".", "-")}-{DateTime.UtcNow:yyyy-MM}";
             var options = new ElasticsearchSinkOptions(elasticsearchUri) {
                 FailureCallback = e => Console.WriteLine("Unable to submit event " + e.MessageTemplate),
