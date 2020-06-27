@@ -18,7 +18,7 @@ namespace MyBank.Cashback.Api.Internal.Controllers
         public string Get()
         {
             _logger.LogInformation("PingController Get");
-            return "Pong";
+            return "Pong Pong";
         }
     }
 }
